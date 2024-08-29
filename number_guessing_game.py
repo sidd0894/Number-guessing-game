@@ -2,13 +2,6 @@ import random
 
 lowerLimit = 1
 upperLimit = 1000
-yesOptions = ['Y', 'y', 'Yes', 'yes', 'YES']
-noOptions = ['N', 'n', 'No', 'no', 'NO']
-startOptions = ['s', 'start']
-customizeOptions = ['c', 'customize']
-quitOptions = ['q', 'quit']
-highScore = 0
-print(highScore)
 repeat = True
 
 initialMessage = (f'Guess the correct number in the range {lowerLimit} - {upperLimit}.\n')
@@ -22,10 +15,10 @@ while (repeat):
     menuInput = (input('Select the option: ')).lower()
 
     # Handling menu options
-    if (menuInput in startOptions):
+    if (menuInput == 's' or menuInput == 'start'):
         pass
     
-    elif (menuInput in customizeOptions):
+    elif (menuInput == 'c' or menuInput == 'customize'):
         try:
             lowerLimit = input('Enter new lower limit (Leave empty to use default): ')
             if (lowerLimit.strip() == ''):
@@ -38,13 +31,14 @@ while (repeat):
         try:
             upperLimit = input('Enter new upper limit (Leave empty to use default): ')
             if (upperLimit.strip() == ''):
-                upperLimit = 1
+                upperLimit = 1000
             else:
                 upperLimit = int(upperLimit)
         except ValueError:
             print(f'Invalid upper limit. Lower limit set to default {upperLimit}.')
 
-    elif (menuInput in quitOptions):
+    elif (menuInput == 'q' or menuInput == 'quit'):
+        print(f'{'_'*len(initialMessage)}\n')
         break
 
     else:
@@ -79,14 +73,15 @@ while (repeat):
 
         # User can give -1 in the input to skip this number guess.
         if (userInput == '-1'):
-            skip = input('Are you sure you want to skip? (Y/N) ')
+            skip = (input('Are you sure you want to skip? (Y/N) ')).lower()
             # If the user skips, then it will get out of this while loop.
-            if (skip in yesOptions):
+            if (skip == 'y' or skip == 'yes'):
                 turns = 0
                 break
-            elif (not skip in noOptions):
-                print('Invalid input.')
-
+            elif (skip == 'n' or skip == 'no'):
+                pass
+            else:
+                print('Invalid input')
         # Compare the user input with answer and respond accordingly.
         elif (userInput < number):
             print('Too low')
@@ -103,8 +98,7 @@ while (repeat):
     else:
         print(f'\nThe number was {int(number)}.')
 
-    repeat = input('Want to play again? (Y/N) ')
-    if (repeat in noOptions):
+    repeat = (input('Want to play again? (Y/N) ')).lower()
+    if (repeat == 'n' or repeat == 'no'):
         repeat = False
-        highScore = 0
         print(f'{'_'*len(initialMessage)}\n')
